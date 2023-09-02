@@ -2,7 +2,7 @@
 - Patch clamp scripts for the 2023 AdipoRon paper with the Jones and Anderson Labs
 - Code will grouped by the master scripts (headers) that run specific functions (bullet points) within them
 - Small functions that are used throughout the scripts and unchanged functions written by others will be at the end
-- All this code can be found in the Jones Lab drive under Jones_Maganti_Shared > jonesLab_code > Projects > PatchClamp
+- All this code can be found in the Jones Lab drive under: Jones_Maganti_Shared > jonesLab_code > Projects > PatchClamp
 
 ### CCIV_SingleAnalysis: Analysis of single current clamp files
 - CCIV_SpikeDetect: Performs spike detection on current clamp files
