@@ -1,5 +1,14 @@
 # PatchClamp
 - Patch clamp scripts for the 2023 AdipoRon paper with the Jones and Anderson Labs
+
+**The code requires the following toolboxes installed:**
+- Signal Processing Toolbox
+- Statistics and Machine Learning Toolbox
+
+Feel free to reach me at djlasky@ucdavis.edu or dannyjlasky@gmail.com if you require necessary assistance.
+
+Danny Lasky, 2023
+
 - Code will grouped by the master scripts (headers) that run specific functions (bullet points) within them
 - Small functions that are used throughout the scripts and unchanged functions written by others will be at the end
 - All this code can be found in the Jones Lab drive under: Jones_Maganti_Shared > jonesLab_code > Projects > PatchClamp
