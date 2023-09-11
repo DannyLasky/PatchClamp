@@ -5,7 +5,7 @@ sheetName = "Acceptable Cells (No RS > 20)";
 cellType = "All";
 stepLength = 11;
 ISteps = -100:10:0;
-graphType = "All";       % Options: "All", "Individual", "Tau", "Amy"
+graphType = "Amy";       % Options: "All", "Individual", "Tau", "Amy", "Traces"
 
 if cellType == "All"
     fullExcel = readtable(tablePath, 'Sheet', sheetName);
@@ -373,7 +373,7 @@ end
 
 %% Plot mean and SEM for Tau IV Curves
 if graphType == "Tau" || graphType == "All"
-    figure('Units', 'inch', 'Position', [1.5 1.5 2.85 2.5])
+    figure('Units', 'inch', 'Position', [1.5 1.5 2.3 2])
     p1 = shadedErrorBar(ISteps, Tau_WT.IV_Mn, Tau_WT.IV_SEM, 'LineProps', 'k');
     hold on
     shadedErrorBar(ISteps, Tau_WT_A.IV_Mn, Tau_WT_A.IV_SEM, 'LineProps', {'Color', [.7 0 .7], 'MarkerFaceColor', [.7 0 .7]})
@@ -383,18 +383,20 @@ if graphType == "Tau" || graphType == "All"
     p1.YAxis.FontSize = 8;
     p1.XAxis.FontName = 'Arial';
     p1.YAxis.FontName = 'Arial';
-    xlabel('Holding Potential (mV)', 'FontSize', 8, 'FontName', 'Arial')
+    title('IV Curves', 'FontSize', 10, 'FontName', 'Arial', 'FontWeight', 'normal');
+    xlabel('Voltage (mV)', 'FontSize', 8, 'FontName', 'Arial')
     ylabel('Current (pA)', 'FontSize', 8, 'FontName', 'Arial')
     xlim([-105 0])
-    ylim([-400 1200])
+    ylim([-500 1200])
     xticks(-100:20:0);
+    xtickangle(0);
     leg = legend('WT', 'WT+AR', 'Tg', 'Tg+AR', 'Location', 'northwest', 'FontSize', 8, 'FontName', 'Arial');
     legend('boxoff')
     leg.ItemTokenSize = [20, 20];
     exportgraphics(gcf, "Tau IV Curves.pdf", 'Resolution', 300)
 
 %% Plot mean and SEM for Tau max inward current
-    figure('Units', 'inch', 'Position', [1.5 1.5 2.85 2.5])
+    figure('Units', 'inch', 'Position', [1.5 1.5 2.3 2])
     p1 = shadedErrorBar(ISteps, Tau_WT.MaxInCurrent_Mn, Tau_WT.MaxInCurrent_SEM, 'LineProps', 'k');
     hold on
     shadedErrorBar(ISteps, Tau_WT_A.MaxInCurrent_Mn, Tau_WT_A.MaxInCurrent_SEM, 'LineProps', {'Color', [.7 0 .7], 'MarkerFaceColor', [.7 0 .7]})
@@ -404,18 +406,17 @@ if graphType == "Tau" || graphType == "All"
     p1.YAxis.FontSize = 8;
     p1.XAxis.FontName = 'Arial';
     p1.YAxis.FontName = 'Arial';
-    xlabel('Holding Potential (mV)', 'FontSize', 8, 'FontName', 'Arial')
-    ylabel('Max Inward Current (pA)', 'FontSize', 8, 'FontName', 'Arial')
+    title('Maximum Inward Current', 'FontSize', 10, 'FontName', 'Arial', 'FontWeight', 'normal');
+    xlabel('Voltage (mV)', 'FontSize', 8, 'FontName', 'Arial')
+    ylabel('Current (pA)', 'FontSize', 8, 'FontName', 'Arial')
     xlim([-105 0])
-    %ylim([-400 1200])
+    ylim([-10000 0])
     xticks(-100:20:0);
-    leg = legend('WT', 'WT+AR', 'Tg', 'Tg+AR', 'Location', 'northwest', 'FontSize', 8, 'FontName', 'Arial');
-    legend('boxoff')
-    leg.ItemTokenSize = [20, 20];
+    xtickangle(0);
     exportgraphics(gcf, "Tau Max Inward Current.pdf", 'Resolution', 300)
 
     %% Plot mean and SEM for Tau max outward current
-    figure('Units', 'inch', 'Position', [1.5 1.5 2.85 2.5])
+    figure('Units', 'inch', 'Position', [1.5 1.5 2.3 2])
     p1 = shadedErrorBar(ISteps, Tau_WT.MaxOutCurrent_Mn, Tau_WT.MaxOutCurrent_SEM, 'LineProps', 'k');
     hold on
     shadedErrorBar(ISteps, Tau_WT_A.MaxOutCurrent_Mn, Tau_WT_A.MaxOutCurrent_SEM, 'LineProps', {'Color', [.7 0 .7], 'MarkerFaceColor', [.7 0 .7]})
@@ -425,72 +426,154 @@ if graphType == "Tau" || graphType == "All"
     p1.YAxis.FontSize = 8;
     p1.XAxis.FontName = 'Arial';
     p1.YAxis.FontName = 'Arial';
-    xlabel('Holding Potential (mV)', 'FontSize', 8, 'FontName', 'Arial')
-    ylabel('Max Outward Current (pA)', 'FontSize', 8, 'FontName', 'Arial')
+    xlabel('Voltage (mV)', 'FontSize', 8, 'FontName', 'Arial')
+    title('Maximum Outward Current', 'FontSize', 10, 'FontName', 'Arial', 'FontWeight', 'normal');
+    ylabel('Current (pA)', 'FontSize', 8, 'FontName', 'Arial')
     xlim([-105 0])
     %ylim([-400 1200])
     xticks(-100:20:0);
-    leg = legend('WT', 'WT+AR', 'Tg', 'Tg+AR', 'Location', 'northwest', 'FontSize', 8, 'FontName', 'Arial');
-    legend('boxoff')
-    leg.ItemTokenSize = [20, 20];
+    xtickangle(0);
     exportgraphics(gcf, "Tau Max Outward Current.pdf", 'Resolution', 300)
 end
 
-%% Plot mean and SEM for Amy IV Curves
+%% Plot mean and SEM for Amy max inward current
 if graphType == "Amy" || graphType == "All"
-    figure('Units', 'inch', 'Position', [1.5 1.5 2.85 2.5])
-    p1 = shadedErrorBar(ISteps, Amy_WT.IV_Mn, Amy_WT.IV_SEM, 'LineProps', 'k');
+    figure('Units', 'inch', 'Position', [1.5 1.5 5 1.85])
+    tiledlayout(1,3);
+    nexttile
+    p1 = shadedErrorBar(ISteps, Amy_WT.MaxInCurrent_Mn/1000, Amy_WT.MaxInCurrent_SEM/1000, 'LineProps', 'k');
     hold on
-    shadedErrorBar(ISteps, Amy_TR.IV_Mn, Amy_TR.IV_SEM, 'LineProps', {'Color', [0 .7 .7], 'MarkerFaceColor', [0 .7 .7]})
+    shadedErrorBar(ISteps, Amy_TR.MaxInCurrent_Mn/1000, Amy_TR.MaxInCurrent_SEM/1000, 'LineProps', {'Color', [0 .7 .7], 'MarkerFaceColor', [0 .7 .7]})
     p1.XAxis.FontSize = 8;
     p1.YAxis.FontSize = 8;
     p1.XAxis.FontName = 'Arial';
     p1.YAxis.FontName = 'Arial';
-    xlabel('Holding Potential (mV)', 'FontSize', 8, 'FontName', 'Arial')
-    ylabel('Current (pA)', 'FontSize', 8, 'FontName', 'Arial')
-    xlim([-105 0])
-    ylim([-400 1200])
-    xticks(-100:20:0);
-    leg = legend('Amy WT', 'Amy Tg', 'Location', 'northwest', 'FontSize', 8, 'FontName', 'Arial');
-    legend('boxoff')
-    leg.ItemTokenSize = [20, 20];
-    exportgraphics(gcf, "Amy IV Curves.pdf", 'Resolution', 300)
-
-    %% Plot mean and SEM for Amy max inward current
-    figure('Units', 'inch', 'Position', [1.5 1.5 2.85 2.5])
-    p1 = shadedErrorBar(ISteps, Amy_WT.MaxInCurrent_Mn, Amy_WT.MaxInCurrent_SEM, 'LineProps', 'k');
-    hold on
-    shadedErrorBar(ISteps, Amy_TR.MaxInCurrent_Mn, Amy_TR.MaxInCurrent_SEM, 'LineProps', {'Color', [0 .7 .7], 'MarkerFaceColor', [0 .7 .7]})
-    p1.XAxis.FontSize = 8;
-    p1.YAxis.FontSize = 8;
-    p1.XAxis.FontName = 'Arial';
-    p1.YAxis.FontName = 'Arial';
-    xlabel('Holding Potential (mV)', 'FontSize', 8, 'FontName', 'Arial')
-    ylabel('Max Inward Current (pA)', 'FontSize', 8, 'FontName', 'Arial')
+    title('Max Inward Current', 'FontSize', 10, 'FontName', 'Arial', 'FontWeight', 'normal')
+    xlabel('Voltage (mV)', 'FontSize', 8, 'FontName', 'Arial')
+    ylabel('Current (nA)', 'FontSize', 8, 'FontName', 'Arial')
     xlim([-105 0])
     %ylim([-400 1200])
-    xticks(-100:20:0);
+    xticks(-100:50:0);
     leg = legend('Amy WT', 'Amy Tg', 'Location', 'northwest', 'FontSize', 8, 'FontName', 'Arial');
     legend('boxoff')
     leg.ItemTokenSize = [20, 20];
-    exportgraphics(gcf, "Amy Max Inward Current.pdf", 'Resolution', 300)
 
     %% Plot mean and SEM for Amy max outward current
-    figure('Units', 'inch', 'Position', [1.5 1.5 2.85 2.5])
-    p1 = shadedErrorBar(ISteps, Amy_WT.MaxOutCurrent_Mn, Amy_WT.MaxOutCurrent_SEM, 'LineProps', 'k');
+    nexttile
+    p1 = shadedErrorBar(ISteps, Amy_WT.MaxOutCurrent_Mn/1000, Amy_WT.MaxOutCurrent_SEM/1000, 'LineProps', 'k');
     hold on
-    shadedErrorBar(ISteps, Amy_TR.MaxOutCurrent_Mn, Amy_TR.MaxOutCurrent_SEM, 'LineProps', {'Color', [0 .7 .7], 'MarkerFaceColor', [0 .7 .7]})
+    shadedErrorBar(ISteps, Amy_TR.MaxOutCurrent_Mn/1000, Amy_TR.MaxOutCurrent_SEM/1000, 'LineProps', {'Color', [0 .7 .7], 'MarkerFaceColor', [0 .7 .7]})
     p1.XAxis.FontSize = 8;
     p1.YAxis.FontSize = 8;
     p1.XAxis.FontName = 'Arial';
     p1.YAxis.FontName = 'Arial';
-    xlabel('Holding Potential (mV)', 'FontSize', 8, 'FontName', 'Arial')
-    ylabel('Max Outward Current (pA)', 'FontSize', 8, 'FontName', 'Arial')
+    title('Max Outward Current', 'FontSize', 10, 'FontName', 'Arial', 'FontWeight', 'normal')
+    xlabel('Voltage (mV)', 'FontSize', 8, 'FontName', 'Arial')
     xlim([-105 0])
     %ylim([-400 1200])
-    xticks(-100:20:0);
-    leg = legend('Amy WT', 'Amy Tg', 'Location', 'northwest', 'FontSize', 8, 'FontName', 'Arial');
-    legend('boxoff')
-    leg.ItemTokenSize = [20, 20];
-    exportgraphics(gcf, "Amy Max Outward Current.pdf", 'Resolution', 300)
+    xticks(-100:50:0);
+
+    %% Plot mean and SEM for Amy IV Curves
+    nexttile
+    p1 = shadedErrorBar(ISteps, Amy_WT.IV_Mn/1000, Amy_WT.IV_SEM/1000, 'LineProps', 'k');
+    hold on
+    shadedErrorBar(ISteps, Amy_TR.IV_Mn/1000, Amy_TR.IV_SEM/1000, 'LineProps', {'Color', [0 .7 .7], 'MarkerFaceColor', [0 .7 .7]})
+    p1.XAxis.FontSize = 8;
+    p1.YAxis.FontSize = 8;
+    p1.XAxis.FontName = 'Arial';
+    p1.YAxis.FontName = 'Arial';
+    title('IV Curves', 'FontSize', 10, 'FontName', 'Arial', 'FontWeight', 'normal')
+    xlabel('Voltage (mV)', 'FontSize', 8, 'FontName', 'Arial')
+    xlim([-105 0])
+    xticks(-100:50:0);
+    exportgraphics(gcf, "All Amy VC.pdf", 'Resolution', 300)
+end
+
+%% Plot traces for each tau treatment in a method pulled from VC_IV_Fig_MJ1
+if graphType == "Traces" || graphType == "All"
+    prtfile = 'P:\AndersonLabCultures\protocols & configs\VC-IV.prt.axgx';
+
+    dataGroup{1}    = 'WT'; 
+    dataFile{1}     = 'P:\AndersonLabCultures\lasky\02-22-23\02-22-23 034.axgd';
+    dataGroup{2}    = 'WT+AR'; 
+    dataFile{2}     = 'P:\AndersonLabCultures\lasky\02-22-23\02-22-23 025.axgd';
+    dataGroup{3}    = 'Tg'; 
+    dataFile{3}     = 'P:\AndersonLabCultures\lasky\01-05-23\01-05-23 034.axgd';
+    dataGroup{4}    = 'Tg+AR'; 
+    dataFile{4}     = 'P:\AndersonLabCultures\lasky\03-09-23\03-09-23 001.axgd';
+
+    %% Load data
+    for fileNum = 1:length(dataFile)
+        PRT  = read_axograph(prtfile);
+        PRT.time = PRT.columnData{1};
+        PRT.data = cat(2, PRT.columnData{2:end});
+        dummy = min(PRT.data);
+        [testVstep, testVstepIndx] = max(dummy(find(dummy)));  % smallest negative Vstep (Volts)
+        Vsteps = PRT.data(round(0.5.*size(PRT.data,1)),:);
+    
+        CURR(fileNum) = read_axograph(dataFile{fileNum});
+    end
+
+    for fileNum = 1:length(dataFile)
+        CURR(fileNum).time = CURR(fileNum).columnData{1};
+        CURR(fileNum).data = cat(2, CURR(fileNum).columnData{2:end});
+        testVstepTrace = CURR(fileNum).data(:, testVstepIndx);    
+        CURR(fileNum).dataLeakSub = CURR(fileNum).data - (testVstepTrace.*Vsteps./testVstep);
+        CURR(fileNum).dataLeakSubBaselined = CURR(fileNum).dataLeakSub - repmat(mean(CURR(fileNum).dataLeakSub(1:450,:)), size(CURR(fileNum).dataLeakSub, 1), 1);
+    end
+
+    %% Only display every 3rd point to reduce number of anchopr points for illustrator (which caps a PDF at 32k)
+    for fileNum = 1:length(dataFile)
+        CURR(fileNum).time = CURR(fileNum).time(1:3:end);
+        CURR(fileNum).dataLeakSubBaselined = CURR(fileNum).dataLeakSubBaselined(1:3:end, :);
+    end
+
+    %% Draw 
+    displaySteps = 7:11;
+    figure('units', 'inch', 'pos', 0.5.*[0 0 7.5 10], 'color', 'w')
+    
+    ax1LockPos = [0.1 0.55 0.4 0.4];
+
+    colord{1} = [.2 .2 .2; .4 .4 .4; .6 .6 .6; .8 .8 .8; 1 1 1];        % Gray
+    colord{2} = [.3 0 .3; .475 0 .475; .65 0 .65; .825 0 .825; 1 0 1];  % Magenta
+    colord{3} = [0 .3 .3; 0 .475 .475; 0 .65 .65; 0 .825 .825; 0 1 1];  % Cyan
+    colord{4} = [.3 .3 0; .475 .475 0; .65 .65 0; .825 .825 0; 1 1 0];  % Yellow
+    colorscalefactor = 0.75;
+
+    for fileNum = 1:length(dataFile)
+        [x, y] = ind2sub([2 2], fileNum);
+    
+        % Whole trace
+        axWhole(fileNum) = axes('units', 'norm', 'pos', ax1LockPos + [0.45.*(x-1) -0.5.*(y-1) 0 0]);    
+        plt{fileNum} = plot(1e3.*CURR(fileNum).time, 1e9.*CURR(fileNum).dataLeakSubBaselined(:,displaySteps));
+        set(gca, 'xlim', [20 200], 'ylim', [-3 1.2], 'colororder', colorscalefactor.*colord{fileNum})
+        axis off
+        axLockPos{fileNum} = get(gca, 'pos');
+        if fileNum == 1
+            [sx, sy] = scalebars(gca, [40 0.7], [5.*280/100, 10], {'ms', 'nA'}, 'arial', 8, 1, {'%2.2f', '%1.3f'});
+            text(100, 0.9, 'All', 'FontName', 'Arial', 'FontSize', 8)
+        end
+        title(dataGroup{fileNum}, 'FontName', 'Arial', 'FontSize', 10, 'FontWeight', 'normal')
+        
+        % Early trace
+        axEarly(fileNum) = axes('units', 'norm', 'pos', axLockPos{fileNum}.*[1 1 0.4 0.6]+[0.05 0.03 0 0]);
+        plt{fileNum} = plot(1e3.*CURR(fileNum).time, 1e9.*CURR(fileNum).dataLeakSubBaselined(:,displaySteps));
+        set(gca, 'xlim', [25 35], 'ylim', [-10 3], 'colororder', colorscalefactor.*colord{fileNum})
+        axis off     
+        if fileNum == 1
+            [sx, sy] = scalebars(gca, [30 -4], [40, 20], {'ms', 'nA'}, 'arial', 8, 1, {'%2.2f', '%1.3f'})       ; 
+            text(26, 1.5, 'Early', 'FontName', 'Arial', 'FontSize', 8)            
+        end
+
+        % Late trace
+        axLate(fileNum) = axes('units', 'norm', 'pos', axLockPos{fileNum}.*[1 1 0.4 0.6]+[0.25 0.03 0 0]);
+        plt{fileNum} = plot(1e3.*CURR(fileNum).time, 1e9.*CURR(fileNum).dataLeakSubBaselined(:,displaySteps));
+        set(gca, 'xlim', [150 200], 'ylim', [-10 3], 'colororder', colorscalefactor.*colord{fileNum})
+        axis off     
+        if fileNum == 1
+            [sx, sy] = scalebars(gca, [160 -4], [40, 20], {'ms', 'nA'}, 'arial', 8, 1, {'%2.2f', '%1.3f'})    ;    
+            text(150, 1.5, 'Late', 'FontName', 'Arial', 'FontSize', 8)                        
+        end       
+    end
+    exportgraphics(gcf, "Tau Traces.pdf", 'Resolution', 300)
 end
